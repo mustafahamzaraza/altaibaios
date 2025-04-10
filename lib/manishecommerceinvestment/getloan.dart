@@ -674,7 +674,7 @@ Future<void> payOfflineLoan(BuildContext context, String amount, String months, 
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              "Successfully acquired a credits",
+              "Successfully acquired credits",
               style: TextStyle(color: Colors.white),
             ),
             backgroundColor: Colors.black,
@@ -690,7 +690,8 @@ Future<void> payOfflineLoan(BuildContext context, String amount, String months, 
             builder: (context) => LoanHistoryList(),
           ),
         );
-      } else {
+      }
+      else {
 
 
 

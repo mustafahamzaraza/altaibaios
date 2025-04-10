@@ -46,11 +46,12 @@ import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
 import 'package:provider/provider.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../manishecommerceinvestment/goldratescreen.dart';
 import '../../../manishecommerceinvestment/investmentPlans.dart';
 import '../../../manishecommerceinvestment/payment/phonepg.dart';
 import '../../../utill/colornew.dart';
+import '../../auth/screens/login_screen.dart';
 import '../../gold/goldpricescreen.dart';
 import '../../gold/goldpurchaseplanscreen.dart';
 import 'drawer.dart';
@@ -231,13 +232,6 @@ class _HomePageState extends State<HomePage> {
                         builder: (context) => GoldPriceScreenT(),
                       ),
                     );
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //      builder: (context) => MerchantApp(),
-                    //   //  builder: (context) => PhonePePaymentScreen(),
-                    //   ),
-                    // );
                   },
                   child: Card(
                     elevation: 4,
@@ -300,13 +294,26 @@ class _HomePageState extends State<HomePage> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                 child: InkWell(
-                  onTap: () {
-                    // Navigate to GoldPlansScreen
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const RemainingPlansScreen()),
-                    );
+
+                  onTap: () async {
+                    SharedPreferences prefs = await SharedPreferences.getInstance();
+                    String? token = prefs.getString('auth_token');
+
+                    if (token == null) {
+                      // Navigate to SigninScreen if token is null
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const LoginScreen()),
+                      );
+                    } else {
+                      // Navigate to RemainingPlansScreen if token exists
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const RemainingPlansScreen()),
+                      );
+                    }
                   },
+
                   child: Container(
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
